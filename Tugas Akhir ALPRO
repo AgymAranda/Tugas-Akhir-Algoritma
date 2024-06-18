@@ -1,0 +1,137 @@
+#include <stdio.h>
+#include <stdlib.h>
+//Nama : Agym Aranda
+//Nim : 12250514972
+//Kelas : B
+//Dosen Pengampu : Ewi Ismarendah S.Kom., M.Kom.
+
+void cek_saldo(float saldo) {
+    system("cls");
+    printf("Saldo Anda: Rp. %.2f\n", saldo);
+    printf("\nTekan 0 untuk kembali ke menu transaksi: ");
+    int kembali;
+    while (1) {
+        scanf("%d", &kembali);
+        if(kembali == 0){
+            system("cls");
+            return;
+        }else{
+        	system("cls");
+        	printf("Saldo Anda: Rp. %.2f\n", saldo);
+        	printf("\nInput tidak valid. Tekan 0 untuk kembali ke menu transaksi: ");
+        }
+    }
+}
+
+float setor_tunai(float saldo){
+    system("cls");
+    float setor;
+    printf("Nominal setor tunai: ");
+    scanf("%f", &setor);
+    saldo += setor;
+    system("cls");
+    printf("Setor tunai Anda berhasil\nSaldo Anda: Rp %.2f\n", saldo);
+    printf("\nTekan 0 untuk kembali ke menu transaksi: ");
+    int kembali;
+    while(1){
+        scanf("%d", &kembali);
+        if (kembali == 0) {
+            system("cls");
+            return saldo;
+        }else{
+        	system("cls");
+        	printf("Saldo Anda: Rp %.2f\n", saldo);
+            printf("\nInput tidak valid. Tekan 0 untuk kembali ke menu transaksi: ");
+        }
+    }
+}
+
+float tarik_tunai(float saldo){
+    system("cls");
+    float tarik;
+    printf("Nominal tarik tunai: ");
+    scanf("%f", &tarik);
+    if(tarik <= saldo){
+        saldo -= tarik;
+        system("cls");
+        printf("Tarik tunai Anda berhasil\nSaldo Anda: Rp %.2f\n", saldo);
+    }else{
+        system("cls");
+        printf("Saldo Anda Tidak Cukup\n");
+    }
+    printf("\nTekan 0 untuk kembali ke menu transaksi: ");
+    int kembali;
+    while(1){
+        scanf("%d", &kembali);
+        if (kembali == 0){
+            system("cls");
+            return saldo;
+        }else{
+        	system("cls");
+        	printf("Saldo Anda: Rp %.2f\n", saldo);
+            printf("\nInput tidak valid. Tekan 0 untuk kembali ke menu transaksi: ");
+        }
+    }
+}
+
+void transaksi(float *saldo){
+    int pilih;
+    do{
+        printf("===WELCOME TO BNI MOBILE===\n\n---PILIH MENU TRANSAKSI---\n\n1. Cek Saldo\n2. Setor Tunai\n3. Tarik Tunai\n4. Keluar\n\n");
+        printf("Pilih: ");
+        
+        while(scanf("%d", &pilih) != 1 || pilih < 1 || pilih > 4) {
+        	system("cls");
+        	printf("SELAMAT DATANG DI BANK BNI\n\nPILIH MENU TRANSAKSI\n\n1. Cek Saldo\n2. Setor Tunai\n3. Tarik Tunai\n4. Keluar\n\n");
+            printf("Pilihan tidak valid.\nPilih: ");
+            while (getchar() != '\n');
+        }
+
+        switch (pilih){
+            case 1:
+                cek_saldo(*saldo);
+                break;
+            case 2:
+                *saldo = setor_tunai(*saldo);
+                break;
+            case 3:
+                *saldo = tarik_tunai(*saldo);
+                break;
+            case 4:
+            	system("cls");
+                printf("Terima kasih telah menggunakan layanan BNI.\n");
+                break;
+            default:
+                printf("Pilihan tidak tersedia.\n");
+        }
+    }while(pilih != 4);
+}
+
+int main(){
+    int pin1 = 55555;
+    int pin2;
+    int step = 0;
+    float saldo = 0.0;
+	
+    printf("Login BNI Mobile Banking\n\nPIN: ");
+    scanf("%i", &pin2);
+    system("cls");
+
+    if(pin2 == pin1){
+        transaksi(&saldo);
+    }else{
+        while(step < 2){
+            printf("BNI Mobile\n\nPIN Anda salah. Silakan coba lagi.\nPIN: ");
+            scanf("%i", &pin2);
+            system("cls");
+            if(pin2 == pin1){
+                transaksi(&saldo);
+                return 0;
+            }
+            step++;
+        }
+        printf("Akun Anda Diblokir\n");
+        printf("Silahkan Datang ke Kantor Cabang BNI Terdekat atau Menghubungi Call Center BNI pada Nomor 1500046 ");
+    }
+    return 0;
+}
